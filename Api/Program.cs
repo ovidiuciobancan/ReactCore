@@ -1,6 +1,6 @@
-using Api.Extensions;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Utils.Extensions;
 
 namespace Api
 {

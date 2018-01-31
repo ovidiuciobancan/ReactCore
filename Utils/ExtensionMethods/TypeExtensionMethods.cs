@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Utils.ExtensionMethods
+namespace Utils.Extensions
 {
     /// <summary>
     /// Reflection Type Extension Methods

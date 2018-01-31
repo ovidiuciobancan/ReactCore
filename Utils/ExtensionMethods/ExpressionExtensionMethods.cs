@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 
-namespace Utils.ExtensionMethods
+namespace Utils.Extensions
 {
     public static class ExpressionFactory
     {
@@ -25,6 +25,14 @@ namespace Utils.ExtensionMethods
             where TModel: class
         {
             return ModelProperty<TModel, TProperty>(propName).Compile().Invoke(model);
+        }
+
+        public static Expression<Func<TInput, dynamic>> Convert<TInput, TOutput>(this Expression<Func<TInput, TOutput>> expression)
+        {
+            // Add the boxing operation, but get a weakly typed expression
+            Expression converted = Expression.Convert(expression.Body, typeof(object));
+            // Use Expression.Lambda to get back to strong typing
+            return Expression.Lambda<Func<TInput, dynamic>>(converted, expression.Parameters);
         }
     }
 }

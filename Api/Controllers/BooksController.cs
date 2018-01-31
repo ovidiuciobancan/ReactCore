@@ -2,17 +2,21 @@
 using Microsoft.AspNetCore.Mvc;
 
 using Api.Base;
-using Api.Extensions.Mapper;
 using BusinessLogic.Services;
 using DataTransferObjects.Entities;
 using Api.Models.Books;
 using Microsoft.AspNetCore.JsonPatch;
+using Utils.Extensions.Mapper;
+using System.Collections.Generic;
+using Api.Models.Common;
+using Microsoft.AspNetCore.Http;
+using Utils.Helpers;
 
 namespace Api.Controllers
 {
     //[Route("api/Books")]
     [Produces("application/json")]
-    public class BooksController : BaseController
+    public class BooksController : BaseController //ResourceController<BookDTO>
     {
         private BooksService BooksService;
         private AuthorsService AuthorsService;
@@ -29,7 +33,8 @@ namespace Api.Controllers
         public IActionResult GetBooks()
         {
             var entities = BooksService.Get();
-            var result = Mapper.Map<Book, BookVM>(entities);
+
+            var result = Mapper.Map<Book, BookDTO>(entities);
 
             return Ok(result);
         }
@@ -41,7 +46,7 @@ namespace Api.Controllers
             if (!AuthorsService.Exists(authorId)) return NotFound();
 
             var entities = BooksService.GetByParent(authorId);
-            var result = Mapper.Map<Book, BookVM>(entities);
+            var result = Mapper.Map<Book, BookDTO>(entities);
 
             return Ok(result);
         }
@@ -54,24 +59,25 @@ namespace Api.Controllers
 
             if (entity == null) return NotFound();
 
-            var result = Mapper.Map<Book, BookVM>(entity);
+            var result = Mapper.Map<Book, BookDTO>(entity);
 
             return Ok(result);
         }
 
         [HttpPost]
         [Route("api/authors/{authorId}/books", Name = nameof(CreateBook))]
-        public IActionResult CreateBook(Guid authorId, [FromBody] BookCreateVM model)
+        public IActionResult CreateBook(Guid authorId, [FromBody] BookCreateDTO model)
         {
             if (model == null) return BadRequest();
             if (!AuthorsService.Exists(authorId)) return NotFound();
+            if (!ModelState.IsValid) return UnprocessableEntity();
 
             model.AuthorId = authorId;
-            var entity = Mapper.Map<BookCreateVM, Book>(model);
+            var entity = Mapper.Map<BookCreateDTO, Book>(model);
 
             BooksService.Add(entity);
 
-            var createdModel = Mapper.Map<Book, BookVM>(entity);
+            var createdModel = Mapper.Map<Book, BookDTO>(entity);
 
             return CreatedAtRoute(nameof(GetBook), new { id = entity.Id }, createdModel);
         }
@@ -89,9 +95,10 @@ namespace Api.Controllers
 
         [HttpPut]
         [Route("api/books/{id}", Name = nameof(UpdateBook))]
-        public IActionResult UpdateBook(Guid id, [FromBody] BookUpdateVM model)
+        public IActionResult UpdateBook(Guid id, [FromBody] BookUpdateDTO model)
         {
             if (model == null) return BadRequest();
+            if (!ModelState.IsValid) return UnprocessableEntity();
 
             var entity = BooksService.Get(id);
 
@@ -106,7 +113,7 @@ namespace Api.Controllers
 
         [HttpPatch]
         [Route("api/books/{id}", Name = nameof(PartialUpdateBook))]
-        public IActionResult PartialUpdateBook(Guid id, [FromBody] JsonPatchDocument<BookUpdateVM> patchDocument)
+        public IActionResult PartialUpdateBook(Guid id, [FromBody] JsonPatchDocument<BookUpdateDTO> patchDocument)
         {
             if (patchDocument == null) return BadRequest();
 
@@ -114,11 +121,11 @@ namespace Api.Controllers
 
             if (entity == null) return NotFound();
 
-            var model = Mapper.Map<Book, BookUpdateVM>(entity);
+            var model = Mapper.Map<Book, BookUpdateDTO>(entity);
 
             patchDocument.ApplyTo(model);
 
-            //add validation
+            if (!ModelState.IsValid) return UnprocessableEntity();
 
             Mapper.Map(model, entity);
 
@@ -126,5 +133,38 @@ namespace Api.Controllers
 
             return NoContent();
         }
+
+        //public override BookDTO CreateLinksForResource(BookDTO resource)
+        //{
+        //    resource.Links = new List<LinkDTO>()
+        //    {
+        //        new LinkDTO
+        //        {
+        //            Href = Url.Link(nameof(GetBook), new { id = resource.Id }),
+        //            Rel = "self",
+        //            Method = HttpMethods.Get
+        //        },
+        //        new LinkDTO
+        //        {
+        //            Href = Url.Link(nameof(DeleteBook), new { id = resource.Id }),
+        //            Rel = "delete_book",
+        //            Method = HttpMethods.Delete
+        //        },
+        //        new LinkDTO
+        //        {
+        //            Href = Url.Link(nameof(UpdateBook), new { id = resource.Id }),
+        //            Rel = "update_book",
+        //            Method = HttpMethods.Put
+        //        },
+        //        new LinkDTO
+        //        {
+        //            Href = Url.Link(nameof(PartialUpdateBook), new { id = resource.Id }),
+        //            Rel = "partial_update_book",
+        //            Method = HttpMethods.Patch
+        //        }
+        //    };
+
+        //    return resource;
+        //}
     }
 }

@@ -10,5 +10,6 @@ namespace Common
         public string AuthAuthority { get; set; }
         public string ClientAppId { get; set; }
         public string ClientSecret { get; set; }
+        public string ApiName { get; set; }
     }
 }

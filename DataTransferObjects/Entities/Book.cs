@@ -1,8 +1,9 @@
 ﻿using System;
+using Common.Interfaces;
 
 namespace DataTransferObjects.Entities
 {
-    public class Book
+    public class Book: IEntity
     {
         public Guid Id { get; set; }
         public string Title { get; set; }

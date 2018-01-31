@@ -30,6 +30,11 @@ namespace BusinessLogic.Services
             return Query(uow => uow.Queryable<Author>());
         }
 
+        public IQueryable<Author> Get(Func<IQueryable<Author>, IQueryable<Author>> predicate)
+        {
+            return Query(uow => predicate(uow.Queryable<Author>()));
+        }
+
         public IQueryable<Author> Get(IEnumerable<Guid> ids)
         {
             return Query(uow => uow.Queryable<Author>().Where(p => ids.Contains(p.Id)));

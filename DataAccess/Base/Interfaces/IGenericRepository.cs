@@ -10,7 +10,7 @@ namespace DataAccess.Interfaces
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     public interface IRepository<TEntity>
-        where TEntity : class 
+        where TEntity : class
     {
         IQueryable<TEntity> Query { get; }
 
@@ -25,6 +25,12 @@ namespace DataAccess.Interfaces
         /// </summary>
         /// <param name="entities"></param>
         void AddRange(List<TEntity> entities);
+
+        /// <summary>
+        /// Updates entity
+        /// </summary>
+        /// <param name="entity"></param>
+        void Update(TEntity entity);
 
         /// <summary>
         /// Remove entity from collection

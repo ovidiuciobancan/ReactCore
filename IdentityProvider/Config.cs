@@ -62,7 +62,7 @@ namespace IdentityProvider
         {
             return new List<ApiResource>()
             {
-                new ApiResource("apiclient", "ApiClient")
+                new ApiResource("api", "api")
             };
         }
 
@@ -85,7 +85,7 @@ namespace IdentityProvider
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.Address,
                         "roles",
-                        "apiclient",
+                        "api",
                     },
                     ClientSecrets =
                     {

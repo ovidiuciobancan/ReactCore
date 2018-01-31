@@ -7,7 +7,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using System.Text;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using Utils.ExtensionMethods;
+using Utils.Extensions;
 
 namespace Common.Implementation
 {

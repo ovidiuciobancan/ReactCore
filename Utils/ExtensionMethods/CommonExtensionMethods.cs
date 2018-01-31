@@ -5,9 +5,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Newtonsoft.Json;
 
-namespace Utils.ExtensionMethods
+namespace Utils.Extensions
 {
     /// <summary>
     /// CommonExtensionMethods 
@@ -87,8 +88,8 @@ namespace Utils.ExtensionMethods
             }
         }
 
+     
 
-        
     }
 
     public class Enum<T> where T : struct, IConvertible

@@ -41,6 +41,11 @@ namespace DA.Base
             Context.Set<TEntity>().AddRange(entities);
         }
 
+        public virtual void Update(TEntity entity)
+        {
+            // No implementation
+        }
+
         public virtual void Remove(TEntity entity)
         {
             Context.Set<TEntity>().Attach(entity);

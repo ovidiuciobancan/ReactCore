@@ -26,7 +26,7 @@ namespace BL.Base
         /// <summary>
         /// 
         /// </summary>
-        protected AppSettings AppSettings { get; private set; }
+        protected IAppSettings AppSettings { get; private set; }
         /// <summary>
         /// Constructor
         /// </summary>
@@ -34,7 +34,7 @@ namespace BL.Base
         /// <param name="logger"></param>
         /// <param name="cache"></param>
         /// <param name="appSettings"></param>
-        public BaseService(IUnitOfWork unitOfWork, ILogger logger = null, ICacheProvider cache = null, AppSettings appSettings = null)
+        public BaseService(IUnitOfWork unitOfWork, ILogger logger = null, ICacheProvider cache = null, IAppSettings appSettings = null)
         {
             UnitOfWork = unitOfWork;
             Logger = logger;

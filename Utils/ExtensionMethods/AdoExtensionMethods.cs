@@ -5,7 +5,7 @@ using System.Data.Common;
 using System.Dynamic;
 using System.Linq;
 
-namespace Utils.ExtensionMethods
+namespace Utils.Extensions
 {
     /// <summary>
     /// ADO Extension Methods 

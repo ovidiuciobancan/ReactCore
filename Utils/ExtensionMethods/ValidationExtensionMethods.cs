@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Utils.ExtensionMethods;
+using Utils.Extensions;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
 
-namespace Utils.ExtensionMethods
+namespace Utils.Extensions
 {
     public static class ValidationExtensionMethods
     {
@@ -15,7 +15,7 @@ namespace Utils.ExtensionMethods
         /// </summary>
         /// <param name="modelState"></param>
         /// <returns></returns>
-        public static Dictionary<string, string> GetErrors(this ModelStateDictionary modelState)
+        public static Dictionary<string, List<string>> GetErrors(this ModelStateDictionary modelState)
         {
             return modelState
                 .Where(p => p.Value.Errors.Any())
@@ -24,7 +24,7 @@ namespace Utils.ExtensionMethods
                     p => p.Key.Decapitalize(),
                     p => p.Value.Errors
                         .Select(e => e.ErrorMessage)
-                        .Aggregate((a, e) => a + "," + e)
+                        .ToList()
                 );
         }
 

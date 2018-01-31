@@ -9,5 +9,6 @@ namespace Common.Interfaces
         string AuthAuthority { get; set; }
         string ClientAppId { get; set; }
         string ClientSecret { get; set; }
+        string ApiName { get; set; }
     }
 }

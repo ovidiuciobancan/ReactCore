@@ -1,19 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Library.API.Helpers
+namespace API.Helpers
 {
     public class UnprocessableEntityObjectResult : ObjectResult
     {
-        public UnprocessableEntityObjectResult(ModelStateDictionary modelState) : base(new SerializableError(modelState))
+        public UnprocessableEntityObjectResult(Dictionary<string, List<string>> errors)
+            : base(errors)
         {
-            if(modelState==null)
+            if(errors == null)
             {
-                throw new ArgumentNullException(nameof(modelState));
+                throw new Exception("Validation failed with no errors.");
             }
             StatusCode = 422;
         }

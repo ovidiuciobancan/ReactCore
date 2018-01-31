@@ -24,7 +24,7 @@ namespace BL.Base
         /// <param name="logger"></param>
         /// <param name="cache"></param>
         /// <param name="appSettings"></param>
-        public Service(TUnitOfWork unitOfWork, ILogger logger = null, ICacheProvider cache = null, AppSettings appSettings = null)
+        public Service(TUnitOfWork unitOfWork, ILogger logger = null, ICacheProvider cache = null, IAppSettings appSettings = null)
             : base(unitOfWork, logger, cache, appSettings)
         {
             UnitOfWork = unitOfWork;

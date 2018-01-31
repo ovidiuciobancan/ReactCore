@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 
 
-namespace Utils.ExtensionMethods
+namespace Utils.Extensions
 {
     /// <summary>
     /// EF Model Builder Extension Methods

@@ -1,19 +1,19 @@
 ﻿using System;
 using AutoMapper;
-
-using Api.Extensions.Mapper;
 using Api.Models.Authors;
 using DataTransferObjects.Entities;
 using System.Linq;
 using Api.Models.Books;
-using Api.Code.Base;
+using Utils.Extensions.Mapper;
+using System.Linq.Expressions;
 
 namespace Api.Mappers
 {
     public class AuthorMapper : BaseMapper,
-        IMapper<Author, AuthorVM>, 
-        IMapper<AuthorVM, Author>, 
-        IMapper<AuthorCreateVM, Author>
+        IMapper<Author, AuthorDTO>, 
+        IMapper<AuthorDTO, Author>, 
+        IMapper<AuthorCreateDTO, Author>,
+        IMapper<Expression<Func<AuthorDTO, bool>>, Expression<Func<Author, bool>>>
     {
         private MapperService MapperService; 
 
@@ -25,28 +25,33 @@ namespace Api.Mappers
 
         public override void Config(IMapperConfigurationExpression config)
         {
-            config.CreateMap<Author, AuthorVM>()
+            config.CreateMap<Author, AuthorDTO>()
                 .ForMember(d => d.Name, a => a.MapFrom(s => $"{s.FirstName} {s.LastName}"))
                 .ForMember(d => d.Age, a => a.MapFrom(s =>  DateTime.Now.Year - s.DateOfBirth.Year));
-            config.CreateMap<AuthorVM, Author>();
-            config.CreateMap<AuthorCreateVM, Author>();
+            config.CreateMap<AuthorDTO, Author>();
+            config.CreateMap<AuthorCreateDTO, Author>();
         }
 
-        public AuthorVM Map(Author source)
+        public AuthorDTO Map(Author source)
         {
-            return Mapper.Map<AuthorVM>(source);
+            return Mapper.Map<AuthorDTO>(source);
         }
-        public Author Map(AuthorVM source)
+        public Author Map(AuthorDTO source)
         {
             return Mapper.Map<Author>(source);
         }
-        public Author Map(AuthorCreateVM source)
+        public Author Map(AuthorCreateDTO source)
         {
-            var result = Mapper.Map<AuthorCreateVM, Author>(source);
+            var result = Mapper.Map<AuthorCreateDTO, Author>(source);
             result.Books = source.Books
-                .Select(p => MapperService.Map<BookCreateVM, Book>(p))
+                .Select(p => MapperService.Map<BookCreateDTO, Book>(p))
                 .ToList();
             return result;
+        }
+
+        public Expression<Func<Author, bool>> Map(Expression<Func<AuthorDTO, bool>> source)
+        {
+            return Mapper.Map<Expression<Func<Author, bool>>>(source);
         }
     }
 }

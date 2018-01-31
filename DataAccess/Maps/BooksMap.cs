@@ -15,7 +15,7 @@ namespace DataAccess.Maps
             entity.HasKey(e => e.Id);
 
             entity.Property(e => e.Title).IsRequired().HasMaxLength(100);
-            entity.Property(e => e.Description).HasMaxLength(500);
+            entity.Property(e => e.Description);
 
             entity.HasOne(d => d.Author)
                 .WithMany(p => p.Books)

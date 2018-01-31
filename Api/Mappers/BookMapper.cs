@@ -1,56 +1,55 @@
 ﻿using AutoMapper;
 
-using Api.Extensions.Mapper;
 using Api.Models.Books;
 using DataTransferObjects.Entities;
-using Api.Code.Base;
+using Utils.Extensions.Mapper;
 
 namespace Api.Mappers
 {
     public class BookMapper : BaseMapper,
-        IMapper<Book, BookVM>, 
-        IMapper<BookCreateVM, Book>
+        IMapper<Book, BookDTO>, 
+        IMapper<BookCreateDTO, Book>
         
     {
         public BookMapper(IMapper mapper) : base(mapper) { }
 
         public override void Config(IMapperConfigurationExpression config)
         {
-            config.CreateMap<Book, BookVM>();
-            config.CreateMap<BookCreateVM, Book>();
+            config.CreateMap<Book, BookDTO>();
+            config.CreateMap<BookCreateDTO, Book>();
 
         }
 
-        public BookVM Map(Book source)
+        public BookDTO Map(Book source)
         {
-            return Mapper.Map<Book, BookVM>(source);
+            return Mapper.Map<Book, BookDTO>(source);
         }
 
-        public Book Map(BookCreateVM source)
+        public Book Map(BookCreateDTO source)
         {
-            return Mapper.Map<BookCreateVM, Book>(source);
+            return Mapper.Map<BookCreateDTO, Book>(source);
         }
     }
 
     public class BookUpdateMapper : BaseMapper,
-        IMapper<Book, BookUpdateVM>,
-        IPartialMapper<BookUpdateVM, Book>
+        IMapper<Book, BookUpdateDTO>,
+        IPartialMapper<BookUpdateDTO, Book>
     {
         public BookUpdateMapper(IMapper mapper) : base(mapper) { }
 
         public override void Config(IMapperConfigurationExpression config)
         {
-            config.CreateMap<Book, BookUpdateVM>();
-            config.CreateMap<BookUpdateVM, Book>();
+            config.CreateMap<Book, BookUpdateDTO>();
+            config.CreateMap<BookUpdateDTO, Book>();
         }
-        public void Map(BookUpdateVM source, Book destination)
+        public void Map(BookUpdateDTO source, Book destination)
         {
             Mapper.Map(source, destination);
         }
 
-        public BookUpdateVM Map(Book source)
+        public BookUpdateDTO Map(Book source)
         {
-            return Mapper.Map<BookUpdateVM>(source);
+            return Mapper.Map<BookUpdateDTO>(source);
         }
 
     }

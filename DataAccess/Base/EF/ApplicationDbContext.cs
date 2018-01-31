@@ -2,7 +2,7 @@
 
 using DA.Maps;
 using DataAccess.Entities;
-using Utils.ExtensionMethods;
+using Utils.Extensions;
 using DataTransferObjects.Entities;
 using DataAccess.Maps;
 

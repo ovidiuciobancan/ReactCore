@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Common.Interfaces;
 
 namespace DataTransferObjects.Entities
 {
-    public class Author
+    public class Author : IEntity
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }

@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Api.Base;
-using Api.Extensions.Mapper;
 using Api.Models.Authors;
 using BusinessLogic.Services;
 using DataTransferObjects.Entities;
 using API.Helpers;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Utils.Extensions.Mapper;
 
 namespace Api.Controllers
 {
@@ -32,21 +30,21 @@ namespace Api.Controllers
 
             var entities = AuthorsService.Get(ids);
 
-            var model = Mapper.Map<Author, AuthorVM>(entities);
+            var model = Mapper.Map<Author, AuthorDTO>(entities);
 
             return Ok(model);
         }
 
         [HttpPost]
-        public IActionResult CreateAuthorCollection([FromBody]IEnumerable<AuthorCreateVM> authors)
+        public IActionResult CreateAuthorCollection([FromBody]IEnumerable<AuthorCreateDTO> authors)
         {
             if (authors == null) return BadRequest();
 
-            var entities = Mapper.Map<AuthorCreateVM, Author>(authors).ToList();
+            var entities = Mapper.Map<AuthorCreateDTO, Author>(authors).ToList();
 
             AuthorsService.AddRange(entities);
 
-            var model = Mapper.Map<Author, AuthorVM>(entities);
+            var model = Mapper.Map<Author, AuthorDTO>(entities);
             var ids = entities
                 .Select(p => p.Id.ToString())
                 .Aggregate((i,j) => $"{i},{j}");
