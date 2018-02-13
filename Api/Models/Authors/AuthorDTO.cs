@@ -6,7 +6,7 @@ using Api.Models.Common;
 
 namespace Api.Models.Authors
 {
-    public class AuthorDTO //: ResourceBaseDTO
+    public class AuthorDTO : ResourceBaseDTO
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

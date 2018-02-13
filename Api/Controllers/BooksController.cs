@@ -16,7 +16,7 @@ namespace Api.Controllers
 {
     //[Route("api/Books")]
     [Produces("application/json")]
-    public class BooksController : BaseController //ResourceController<BookDTO>
+    public class BooksController : ResourceController<BookDTO>
     {
         private BooksService BooksService;
         private AuthorsService AuthorsService;
@@ -30,12 +30,11 @@ namespace Api.Controllers
 
         [HttpGet]
         [Route("api/books", Name = nameof(GetBooks))]
-        public IActionResult GetBooks()
+        public IActionResult GetBooks(ODataQuery oDataQuery)
         {
             var entities = BooksService.Get();
 
-            var result = Mapper.Map<Book, BookDTO>(entities);
-
+            var result = oDataQuery.ApplyTo<Book, BookDTO>(entities);
             return Ok(result);
         }
 
@@ -134,37 +133,42 @@ namespace Api.Controllers
             return NoContent();
         }
 
-        //public override BookDTO CreateLinksForResource(BookDTO resource)
-        //{
-        //    resource.Links = new List<LinkDTO>()
-        //    {
-        //        new LinkDTO
-        //        {
-        //            Href = Url.Link(nameof(GetBook), new { id = resource.Id }),
-        //            Rel = "self",
-        //            Method = HttpMethods.Get
-        //        },
-        //        new LinkDTO
-        //        {
-        //            Href = Url.Link(nameof(DeleteBook), new { id = resource.Id }),
-        //            Rel = "delete_book",
-        //            Method = HttpMethods.Delete
-        //        },
-        //        new LinkDTO
-        //        {
-        //            Href = Url.Link(nameof(UpdateBook), new { id = resource.Id }),
-        //            Rel = "update_book",
-        //            Method = HttpMethods.Put
-        //        },
-        //        new LinkDTO
-        //        {
-        //            Href = Url.Link(nameof(PartialUpdateBook), new { id = resource.Id }),
-        //            Rel = "partial_update_book",
-        //            Method = HttpMethods.Patch
-        //        }
-        //    };
+        public override BookDTO CreateLinksForResource(BookDTO resource)
+        {
+            resource.Links = new List<LinkDTO>()
+            {
+                new LinkDTO
+                {
+                    Href = Url.Link(nameof(GetBook), new { id = resource.Id }),
+                    Rel = "self",
+                    Method = HttpMethods.Get
+                },
+                new LinkDTO
+                {
+                    Href = Url.Link(nameof(DeleteBook), new { id = resource.Id }),
+                    Rel = "delete_book",
+                    Method = HttpMethods.Delete
+                },
+                new LinkDTO
+                {
+                    Href = Url.Link(nameof(UpdateBook), new { id = resource.Id }),
+                    Rel = "update_book",
+                    Method = HttpMethods.Put
+                },
+                new LinkDTO
+                {
+                    Href = Url.Link(nameof(PartialUpdateBook), new { id = resource.Id }),
+                    Rel = "partial_update_book",
+                    Method = HttpMethods.Patch
+                }
+            };
 
-        //    return resource;
-        //}
+            return resource;
+        }
+
+        public override LinkedCollectionDTO<BookDTO> CreateLinksForResourceCollection(LinkedCollectionDTO<BookDTO> linkedCollection)
+        {
+            return linkedCollection;
+        }
     }
 }

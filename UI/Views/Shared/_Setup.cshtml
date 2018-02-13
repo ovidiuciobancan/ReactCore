@@ -1,0 +1,16 @@
+﻿@using Common.Interfaces
+@model IAppSettings
+
+<script>
+    document.app = {
+        settings: {
+            common: {
+                apiUrl: '@Model.CommonSettings.ApiUrl',
+            },
+            auth: {
+                authority: '@Model.AuthSettings.Authority',
+                clientId: '@Model.AuthSettings.ClientId'
+            }
+        }
+    }
+</script>

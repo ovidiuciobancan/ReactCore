@@ -1,7 +1,6 @@
 ﻿import { fetch, addTask, baseUrl } from 'domain-task';
-import * as AppSettings from '../config/AppSettings';
-import * as Const from '../config/Constants';
-import { FetchApi } from './FetchApi';
+import * as AppSettings from 'config/AppSettings';
+import { FetchApi, HttpMethods } from 'providers/FetchApi';
 import * as queryString from 'query-string';
 
 export class RestApi<T> extends FetchApi {
@@ -32,7 +31,7 @@ export class RestApi<T> extends FetchApi {
 
     public post(data: any): Promise<T> {
         let fetchOptions = {
-            method: Const.httpMethod.POST,
+            method: HttpMethods.POST,
             body: JSON.stringify(data)
         }
         return super.fetch(this.resource, fetchOptions);
@@ -41,7 +40,7 @@ export class RestApi<T> extends FetchApi {
     public put(key: any, data: any): Promise<T> {
         let url = this.resource + '/' + key;
         let fetchOptions = {
-            method: Const.httpMethod.PUT,
+            method: HttpMethods.PUT,
             body: JSON.stringify(data)
         }
         return super.fetch(url, fetchOptions);
@@ -50,7 +49,7 @@ export class RestApi<T> extends FetchApi {
     public delete(key: any): Promise<T> {
         let url = this.resource + '/' + key;
         let fetchOptions = {
-            method: Const.httpMethod.DELETE,
+            method: HttpMethods.DELETE,
         }
         return super.fetch(url, fetchOptions);
     }

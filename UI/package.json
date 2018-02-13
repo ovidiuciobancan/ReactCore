@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "devDependencies": {
     "@types/history": "4.6.0",
-    "@types/react": "15.0.35",
-    "@types/react-dom": "15.5.1",
+    "@types/react": "16.0.37",
+    "@types/react-dom": "16.0.4",
     "@types/react-hot-loader": "3.0.3",
     "@types/react-redux": "4.4.45",
     "@types/react-router": "4.0.12",
@@ -42,6 +42,18 @@
     "webpack-merge": "4.1.0"
   },
   "dependencies": {
-    "@types/query-string": "https://registry.npmjs.org/@types/query-string/-/query-string-5.0.1.tgz"
+    "@types/material-ui": "^0.20.6",
+    "@types/prop-types": "^15.5.2",
+    "@types/query-string": "https://registry.npmjs.org/@types/query-string/-/query-string-5.0.1.tgz",
+    "@types/react": "^16.0.37",
+    "@types/react-dom": "^16.0.4",
+    "@types/redux-actions": "^2.2.3",
+    "babel-polyfill": "^6.26.0",
+    "material-ui": "^0.20.0",
+    "oidc-client": "https://registry.npmjs.org/oidc-client/-/oidc-client-1.4.1.tgz",
+    "prop-types": "https://registry.npmjs.org/prop-types/-/prop-types-15.5.10.tgz",
+    "react": "^15.6.1",
+    "redux-actions": "^2.2.1",
+    "redux-oidc": "^3.0.0-beta.14"
   }
 }

@@ -3,7 +3,7 @@ using Api.Models.Common;
 
 namespace Api.Models.Books
 {
-    public class BookDTO //: ResourceBaseDTO
+    public class BookDTO : ResourceBaseDTO
     {
         public Guid Id { get; set; }
 

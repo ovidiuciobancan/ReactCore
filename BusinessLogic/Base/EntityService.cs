@@ -60,7 +60,7 @@ namespace BusinessLogic.Base
         }
         public void Update(T entity)
         {
-            //no implementation
+            Transaction();
         }
     }
 }

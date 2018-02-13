@@ -20,7 +20,7 @@ namespace UI
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            AppSettings = configuration.GetSettings<AppSettings>();
+            AppSettings = configuration.GetConfiguration<AppSettings>();
         }
 
         public IConfiguration Configuration { get; }
@@ -30,16 +30,16 @@ namespace UI
         public void ConfigureServices(IServiceCollection services)
         {
             //Add typed AppSettings from appsettings.json
-            services.AddAppSettings<IAppSettings, AppSettings>(Configuration);
+            services.AddSingleton<IAppSettings>(AppSettings);
 
             // Add open id connect with IdentityServer4 authentication
-            services.AddHybridAuth(opt =>
-            {
-                opt.OpenIdConnectOptions.Authority = AppSettings.AuthAuthority;
-                opt.OpenIdConnectOptions.ClientId = AppSettings.ClientAppId;
-                opt.OpenIdConnectOptions.ClientSecret = AppSettings.ClientSecret;
-                opt.OpenIdConnectOptions.Scope.Add(AppSettings.ApiName);
-            });
+            //services.AddHybridAuth(opt =>
+            //{
+            //    opt.OpenIdConnectOptions.Authority = AppSettings.AuthAuthority;
+            //    opt.OpenIdConnectOptions.ClientId = AppSettings.ClientAppId;
+            //    opt.OpenIdConnectOptions.ClientSecret = AppSettings.ClientSecret;
+            //    opt.OpenIdConnectOptions.Scope.Add(AppSettings.ApiName);
+            //});
 
             services.AddMvc();
         }
@@ -62,12 +62,9 @@ namespace UI
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-                routes.MapRoute(
-                    name: "apiRoute",
-                    template: "api/{controller}/{id?}");
                 routes.MapSpaFallbackRoute(
-                            name: "spa-fallback",
-                            defaults: new { controller = "Authors" });
+                    name: "spa-fallback",
+                    defaults: new { controller = "Home", action = "Index" });
             });
         }
     }

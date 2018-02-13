@@ -35,24 +35,24 @@ namespace Api
         public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
-            AppSettings = configuration.GetSettings<AppSettings>();
+            AppSettings = configuration.GetConfiguration<AppSettings>();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             //Add typed AppSettings from appsettings.json
-            services.AddAppSettings<IAppSettings, AppSettings>(Configuration);
+            services.AddSingleton<IAppSettings>(AppSettings);
 
-            // Add open id connect with IdentityServer4 authentication
-            services
-                .AddAuthentication()
-                .AddIdentityServerAuthentication(config =>
-                {
-                    config.RequireHttpsMetadata = true;
-                    config.Authority = AppSettings.AuthAuthority;
-                    config.ApiName = "api";
-                });
+            //// Add open id connect with IdentityServer4 authentication
+            //services
+            //    .AddAuthentication()
+            //    .AddIdentityServerAuthentication(config =>
+            //    {
+            //        config.RequireHttpsMetadata = true;
+            //        config.Authority = AppSettings.AuthAuthority;
+            //        config.ApiName = "api";
+            //    });
 
             // Add distributed cache
             services.AddDistributedMemoryCache();
@@ -78,6 +78,7 @@ namespace Api
                 .AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssemblyContaining<CommonValidator>()).Services
                 .AddMvcHelpers();
 
+ 
 
             // Add Cache
             services.AddSingleton<ICacheProvider, MemoryCacheProvider>();
@@ -95,6 +96,26 @@ namespace Api
             services.AddMapper();
 
             //.AddCurrentUser()
+
+            services.AddAuthorization();
+            services.AddAuthentication("Bearer")
+                .AddIdentityServerAuthentication(options =>
+                {
+                    options.Authority = AppSettings.AuthSettings.Authority;
+                    options.RequireHttpsMetadata = true;
+                    options.ApiName = "api";
+                });
+
+            services.AddCors(options =>
+            {
+                // this defines a CORS policy called "default"
+                options.AddPolicy("default", policy =>
+                {
+                    policy.WithOrigins("https://localhost:44310/")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -103,6 +124,8 @@ namespace Api
             app.UseExceptionMiddleware(env);
 
             app.UseSerilogMiddleware(loggerFactory);
+
+            app.UseCors("default");
 
             app.UseAuthentication();
 

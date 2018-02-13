@@ -23,8 +23,9 @@ namespace Api.Base
             return base.Ok(CreateLinksForResource(resource));
         }
         
-        public virtual OkObjectResult Ok(IEnumerable<T> resourceCollection)
+        public virtual OkObjectResult Ok(List<T> resourceCollection)
         {
+            resourceCollection.ForEach(p => CreateLinksForResource(p));
             var result = CreateLinksForResourceCollection(new LinkedCollectionDTO<T>(resourceCollection));
             return base.Ok(result);
         }

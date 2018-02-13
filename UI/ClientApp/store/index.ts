@@ -1,8 +1,10 @@
 import * as WeatherForecasts from './WeatherForecasts';
 import * as Counter from './Counter';
+import * as Oidc from 'providers/oidc/OidcStore';
 
 // The top-level state object
 export interface ApplicationState {
+    oidc: Oidc.UserState;
     counter: Counter.CounterState;
     weatherForecasts: WeatherForecasts.WeatherForecastsState;
 }
@@ -11,6 +13,7 @@ export interface ApplicationState {
 // the reducer with the matching name. It's important that the names match exactly, and that the reducer
 // acts on the corresponding ApplicationState property type.
 export const reducers = {
+    oidc: Oidc.reducer,
     counter: Counter.reducer,
     weatherForecasts: WeatherForecasts.reducer
 };

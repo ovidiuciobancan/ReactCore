@@ -3,9 +3,7 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,26 +12,48 @@ namespace Utils.Extensions
     public static class ConfigurationExtensionMethods
     {
         /// <summary>
-        /// Gets Typed App Settings from appsettings.json
+        /// Generic Gets Typed App Settings from appsettings.json
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="config"></param>
         /// <returns></returns>
-        public static T GetSettings<T>(this IConfiguration config, string sectionName = "AppSettings")
+        public static T GetConfiguration<T>(this IConfiguration config, string sectionName = null)
             where T : class, new()
         {
-            var appSettings = new T();
-            var appSettingsSection = config.GetSection(sectionName);
-            typeof(T).GetTypeInfo().GetProperties().ToList().ForEach(p =>
+            var result = new T();
+            sectionName = sectionName ?? typeof(T).GetTypeInfo().Name; 
+            config.GetSection(sectionName).Bind(result);
+            return result;
+        }
+
+        /// <summary>
+        /// Gets Typed App Settings from appsettings.json
+        /// </summary>
+        /// <param name="returnType"></param>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        private static object GetSettings(this IConfigurationSection configSection, Type returnType)
+        {
+            var appSectionSettings = Activator.CreateInstance(returnType);
+            returnType.GetTypeInfo().GetProperties().ToList().ForEach(p =>
             {
-                var configValue = appSettingsSection.GetValue(p.PropertyType, p.Name);
-                if (p.SetMethod != null && configValue != null)
+                if (p.SetMethod != null)
                 {
-                    p.SetValue(appSettings, configValue);
+                    var configSubSection = configSection.GetSection(p.Name);
+                    var configValue = configSection.GetValue(p.PropertyType, p.Name);
+                    if (configValue != null)
+                    {
+                        p.SetValue(appSectionSettings, configValue);
+                        
+                    }
+                    else if(configSubSection != null)
+                    {
+                        p.SetValue(appSectionSettings, configSubSection.GetSettings(p.PropertyType));
+                    }
                 }
             });
 
-            return appSettings;
+            return appSectionSettings;
 
         }
 
@@ -52,7 +72,7 @@ namespace Utils.Extensions
         public static IServiceCollection AddMvcHelpers(this IServiceCollection services)
         {
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
-            services.AddScoped<IUrlHelper, UrlHelper>(serviceProvider => 
+            services.AddScoped<IUrlHelper, UrlHelper>(serviceProvider =>
             {
                 var actionContext = serviceProvider.GetService<IActionContextAccessor>().ActionContext;
                 return new UrlHelper(actionContext);

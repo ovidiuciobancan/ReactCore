@@ -1,7 +1,16 @@
 ﻿import { fetch } from 'domain-task';
-import * as Const from '../config/Constants';
-import AppSettings from './../config/AppSettings';
 
+export const HttpMethods = {
+    GET: 'GET',
+    POST: 'POST',
+    PUT: 'PUT',
+    DELETE: 'DELETE'
+};
+
+export const HttpContentTypes = {
+    json: 'application/json; charset=utf-8',
+    html: 'text/html; charset=utf-8'
+}
 export interface FetchOptions {
     method: string,
     headers: any,
@@ -14,17 +23,19 @@ export interface HttpResponseError {
     statusText: string
 }
 
+
+const defaultOptions: FetchOptions = {
+    method: HttpMethods.GET,
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Pragma': 'no-cache',
+    }
+}
+
 export class FetchApi {
 
     private baseUrl: string;
-    private defaultOptions: FetchOptions = {
-        method: Const.httpMethod.GET,
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Pragma': 'no-cache',
-        }
-    }
 
     constructor(baseUrl: string) {
         this.baseUrl = baseUrl;
@@ -34,7 +45,7 @@ export class FetchApi {
     }
 
     public fetch(resourcePath: string, options? : any) {
-        let opt = Object.assign({}, this.defaultOptions, options);
+        let opt = Object.assign({}, defaultOptions, options);
         let url = this.baseUrl + resourcePath;
         return this.makeRequest(url, options);
     }
@@ -50,20 +61,30 @@ export class FetchApi {
     }
 
     private handleResponse = (response: any) => {
-        var contentType = response.headers.get("content-type")
+       
         if (response.ok) {
-            switch (contentType) {
-                case Const.httpContentTypes.json:
-                    return response.json() as Promise<any>;
-                case Const.httpContentTypes.html:
-                    return response.text() as Promise<any>;
-                default:
-                    return Promise.resolve(response);
-            }
+            return this.handleResponseSuccess(response);
         }
 
+        this.handleResponse(response);
+    }
+
+    private handleResponseSuccess = (response: any) => {
+        var contentType = response.headers.get("content-type")
         switch (contentType) {
-            case Const.httpContentTypes.json:
+            case HttpContentTypes.json:
+                return response.json() as Promise<any>;
+            case HttpContentTypes.html:
+                return response.text() as Promise<any>;
+            default:
+                return Promise.resolve(response);
+        }
+    }
+    private handleResponseError = (response: any) => {
+        var contentType = response.headers.get("content-type");
+
+        switch (contentType) {
+            case HttpContentTypes.json:
                 return response.json().then((data: any) => {
                     throw <HttpResponseError>{
                         message: data,
@@ -71,7 +92,7 @@ export class FetchApi {
                         statusText: response.statusText
                     }
                 });
-            case Const.httpContentTypes.html:
+            case HttpContentTypes.html:
                 return response.text().then((data: any) => {
                     throw <HttpResponseError>{
                         message: data,
@@ -82,5 +103,5 @@ export class FetchApi {
             default:
                 throw Promise.resolve(response);
         }
-    }  
+    }
 }

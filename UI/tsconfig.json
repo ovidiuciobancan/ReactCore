@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./",
     "module": "es2015",
     "moduleResolution": "node",
     "target": "es5",
@@ -9,11 +9,20 @@
     "sourceMap": true,
     "skipDefaultLibCheck": true,
     "strict": true,
-    "lib": ["es6", "dom"],
-    "types": ["webpack-env"]
+    "noImplicitAny": false,
+    "lib": [ "es6", "dom" ],
+    "types": [ "webpack-env", "material-ui" ],
+    "paths": {
+      "app/*": [ "./ClientApp/*" ],
+      "config/*": [ "./ClientApp/code/config/*" ],
+      "providers/*": [ "./ClientApp/code/providers/*" ],
+      "store/*": [ "./ClientApp/store/*" ],
+      "containers/*": [ "./ClientApp/components/container/*" ],
+      "presentation/*": [ "./ClientApp/components/presentation/*" ]
+    }
   },
   "exclude": [
-      "bin",
-      "node_modules"
+    "bin",
+    "node_modules"
   ]
 }

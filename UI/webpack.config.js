@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const TsConfigPathsPlugin = require('awesome-typescript-loader').TsConfigPathsPlugin;
 const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin;
 const merge = require('webpack-merge');
 
@@ -10,7 +11,20 @@ module.exports = (env) => {
     // Configuration in common to both client-side and server-side bundles
     const sharedConfig = () => ({
         stats: { modules: false },
-        resolve: { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
+        resolve: {
+            extensions: ['.js', '.jsx', '.ts', '.tsx'],
+            alias: {
+                app : path.resolve(__dirname, 'ClientApp/'),
+                config: path.resolve(__dirname, './ClientApp/code/config'),
+                providers: path.resolve(__dirname, './ClientApp/code/providers'),
+                container: path.resolve(__dirname, './ClientApp/components/container'),
+                presentation: path.resolve(__dirname, './ClientApp/components/presentation'),
+                store: path.resolve(__dirname, './ClientApp/store/*')
+            },
+            plugins: [
+                new TsConfigPathsPlugin()
+            ]
+        },
         output: {
             filename: '[name].js',
             publicPath: 'dist/' // Webpack dev middleware, if enabled, handles requests for this URL prefix

@@ -1,9 +1,16 @@
+@using Common.Interfaces
+@model IAppSettings
+
 @{
     ViewData["Title"] = "Home Page";
 }
 
-<div id="react-app" asp-prerender-module="ClientApp/dist/main-server">Loading...</div>
+<div id="react-app" @*asp-prerender-module="ClientApp/dist/main-server"*@>
+
+</div>
 
 @section scripts {
     <script src="~/dist/main-client.js" asp-append-version="true"></script>
 }
+
+@{ Html.RenderPartial("_Setup", Model); }

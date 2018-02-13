@@ -96,10 +96,27 @@ namespace IdentityProvider
                         "https://localhost:44344/signout-callback-oidc"
                     },
                     AllowOfflineAccess = true
+                },
+                new Client
+                {
+                    ClientId = "react",
+                    ClientName = "React Client",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,
+                    AllowedCorsOrigins = new List<string> { "https://localhost:44310/" },
+                    RedirectUris =           { "https://localhost:44310/oidc-callback" },
+                    PostLogoutRedirectUris = { "https://localhost:44310/" },
+
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "api"
+                    },
+                    AllowOfflineAccess = true,
+                    RequireConsent = false,
                 }
             };
-
-
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Api.Controllers
 {
     [Route("api/Authors")]
     [Produces("application/json")]
-    public class AuthorsController :  BaseController//ResourceController<AuthorDTO>
+    public class AuthorsController :  ResourceController<AuthorDTO>
     {
         private EntityService<Author> AuthorsService;
 
@@ -34,11 +34,13 @@ namespace Api.Controllers
         }
        
         [HttpGet(Name = nameof(GetAuthors))]
-        public IActionResult GetAuthors()
+        public IActionResult GetAuthors(ODataQuery oDataQuery)
         {
             var authors = AuthorsService.Get();
 
-            var result = Mapper.Map<Author, AuthorDTO>(authors); 
+            //var result = Mapper.Map<Author, AuthorDTO>(authors); 
+
+            var result = oDataQuery.ApplyTo<Author, AuthorDTO>(authors);
 
             return Ok(result.ToList());
         }
@@ -97,45 +99,45 @@ namespace Api.Controllers
             return NoContent();
         }
 
-        //public override AuthorDTO CreateLinksForResource(AuthorDTO resource)
-        //{
-        //    resource.Links = new List<LinkDTO>()
-        //    {
-        //        new LinkDTO
-        //        {
-        //            Href = Url.Link(nameof(GetAuthor), new { id = resource.Id }),
-        //            Rel = "self",
-        //            Method = HttpMethods.Get
-        //        },
-        //        new LinkDTO
-        //        {
-        //            Href = Url.Link(nameof(DeleteAuthor), new { id = resource.Id }),
-        //            Rel = "delete_author",
-        //            Method = HttpMethods.Delete
-        //        },
-        //        new LinkDTO
-        //        {
-        //            Href = Url.Link(nameof(UpdateAuthor), new { id = resource.Id }),
-        //            Rel = "update_author",
-        //            Method = HttpMethods.Put
-        //        }
-        //    };
+        public override AuthorDTO CreateLinksForResource(AuthorDTO resource)
+        {
+            resource.Links = new List<LinkDTO>()
+            {
+                new LinkDTO
+                {
+                    Href = Url.Link(nameof(GetAuthor), new { id = resource.Id }),
+                    Rel = "self",
+                    Method = HttpMethods.Get
+                },
+                new LinkDTO
+                {
+                    Href = Url.Link(nameof(DeleteAuthor), new { id = resource.Id }),
+                    Rel = "delete_author",
+                    Method = HttpMethods.Delete
+                },
+                new LinkDTO
+                {
+                    Href = Url.Link(nameof(UpdateAuthor), new { id = resource.Id }),
+                    Rel = "update_author",
+                    Method = HttpMethods.Put
+                }
+            };
 
-        //    return resource;
-        //}
-        //public override LinkedCollectionDTO<AuthorDTO> CreateLinksForResourceCollection(LinkedCollectionDTO<AuthorDTO> linkedCollection)
-        //{
-        //    linkedCollection.Links = new List<LinkDTO>
-        //    {
-        //            new LinkDTO
-        //        {
-        //            Href = Url.Link(nameof(CreateAuthor), new { }),
-        //            Rel = "create_author",
-        //            Method = HttpMethods.Post
-        //        }
-        //    };
+            return resource;
+        }
+        public override LinkedCollectionDTO<AuthorDTO> CreateLinksForResourceCollection(LinkedCollectionDTO<AuthorDTO> linkedCollection)
+        {
+            linkedCollection.Links = new List<LinkDTO>
+            {
+                    new LinkDTO
+                {
+                    Href = Url.Link(nameof(CreateAuthor), new { }),
+                    Rel = "create_author",
+                    Method = HttpMethods.Post
+                }
+            };
 
-        //    return linkedCollection;
-        //}
+            return linkedCollection;
+        }
     }
 }
