@@ -14,11 +14,18 @@
     "types": [ "webpack-env", "material-ui" ],
     "paths": {
       "app/*": [ "./ClientApp/*" ],
+      "css/*": [ "./ClientApp/css/*" ],
+      "resources/*": [ "./ClientApp/resources/*" ],
       "config/*": [ "./ClientApp/code/config/*" ],
+      "interfaces/*": [ "./ClientApp/code/interfaces/*" ],
       "providers/*": [ "./ClientApp/code/providers/*" ],
+      "helpers/*": [ "./ClientApp/code/helpers/*" ],
       "store/*": [ "./ClientApp/store/*" ],
       "containers/*": [ "./ClientApp/components/container/*" ],
-      "presentation/*": [ "./ClientApp/components/presentation/*" ]
+      "presentation/*": [ "./ClientApp/components/presentation/*" ],
+      "widgets/*": [ "./ClientApp/components/widgets/*" ],
+      "models/*": [ "./ClientApp/models/*" ],
+      "services/*": [ "./ClientApp/services/*" ]
     }
   },
   "exclude": [

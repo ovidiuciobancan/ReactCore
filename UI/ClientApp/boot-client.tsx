@@ -12,8 +12,11 @@ import { createBrowserHistory } from 'history';
 import configureStore from './configureStore';
 import { ApplicationState } from './store';
 import * as RoutesModule from './routes';
-import { appSettings } from 'config/AppSettings'
+import { AppSettings } from 'config/AppSettings'
+
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import { appBaseTheme } from 'css/js/material-ui'
 
 let routes = RoutesModule.routes;
 
@@ -24,7 +27,7 @@ const history = createBrowserHistory({ basename: baseUrl });
 // Get the application-wide store instance, prepopulating with state from the server where available.
 const initialState = (window as any).initialReduxState as ApplicationState;
 const store = configureStore(history, initialState);
-const userManager = createUserManager(appSettings.auth.oidcConfig);
+const userManager = createUserManager(AppSettings.auth.oidcConfig);
 
 function renderApp() {
     // This code starts up the React app when it runs in a browser. It sets up the routing configuration
@@ -32,8 +35,8 @@ function renderApp() {
     ReactDOM.render(
         <AppContainer>
             <Provider store={store}>
-                <OidcProvider userManagerSettings={appSettings.auth.oidcConfig}>
-                    <MuiThemeProvider>
+                <OidcProvider userManagerSettings={AppSettings.auth.oidcConfig}>
+                    <MuiThemeProvider muiTheme={getMuiTheme(appBaseTheme)}>
                         <ConnectedRouter history={history} children={routes} />
                     </MuiThemeProvider>
                 </OidcProvider>

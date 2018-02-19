@@ -3,21 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 
 using Api.Base;
 using DataTransferObjects.Entities;
-using Api.Models.Authors;
 using Utils.Extensions.Mapper;
 using Utils.Helpers;
 using BusinessLogic.Base;
 using System.Linq;
 using System.Collections.Generic;
-using Microsoft.AspNet.OData;
-using Microsoft.AspNet.OData.Query;
-using Microsoft.OData.Edm;
-using Microsoft.Data.OData;
-using System.Linq.Expressions;
-using Microsoft.OData.UriParser;
-using Utils.ExtensionMethods.OData;
-using Api.Models.Common;
 using Microsoft.AspNetCore.Http;
+using DTO.Models.Authors;
+using DTO.Models.Common;
 
 namespace Api.Controllers
 {

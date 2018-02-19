@@ -14,12 +14,28 @@ module.exports = (env) => {
         resolve: {
             extensions: ['.js', '.jsx', '.ts', '.tsx'],
             alias: {
-                app : path.resolve(__dirname, 'ClientApp/'),
+                //base
+                app: path.resolve(__dirname, 'ClientApp/'),
+                css: path.resolve(__dirname, 'ClientApp/css'),
+                resources: path.resolve(__dirname, 'ClientApp/resources'),
                 config: path.resolve(__dirname, './ClientApp/code/config'),
+                interfaces: path.resolve(__dirname, './ClientApp/code/interfaces'),
                 providers: path.resolve(__dirname, './ClientApp/code/providers'),
+                helpers: path.resolve(__dirname, './ClientApp/code/helpers'),
+
+                //react components
                 container: path.resolve(__dirname, './ClientApp/components/container'),
                 presentation: path.resolve(__dirname, './ClientApp/components/presentation'),
-                store: path.resolve(__dirname, './ClientApp/store/*')
+                widgets: path.resolve(__dirname, './ClientApp/components/widgets'),
+
+                //redux stores
+                store: path.resolve(__dirname, './ClientApp/store/*'),
+
+                //models
+                models: path.resolve(__dirname, 'ClientApp/models'),
+
+                //services
+                services: path.resolve(__dirname, 'ClientApp/services')
             },
             plugins: [
                 new TsConfigPathsPlugin()

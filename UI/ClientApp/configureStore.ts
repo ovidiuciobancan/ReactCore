@@ -5,7 +5,7 @@ import * as StoreModule from './store';
 import { ApplicationState, reducers } from './store';
 import { History } from 'history';
 import createOidcMiddleware, { createUserManager, OidcProvider, reducer } from 'redux-oidc';
-import { appSettings } from 'config/AppSettings';
+import { AppSettings } from 'config/AppSettings';
 
 
 export default function configureStore(history: History, initialState?: ApplicationState) {
@@ -15,7 +15,7 @@ export default function configureStore(history: History, initialState?: Applicat
     const devToolsExtension = windowIfDefined && windowIfDefined.__REDUX_DEVTOOLS_EXTENSION__ as () => GenericStoreEnhancer;
 
     // Oidc middleware
-    const userManager = createUserManager(appSettings.auth.oidcConfig);
+    const userManager = createUserManager(AppSettings.auth.oidcConfig);
     const oidcMiddleware = createOidcMiddleware(userManager);
 
     const createStoreWithMiddleware = compose(

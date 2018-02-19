@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Api.Base;
-using Api.Models.Authors;
 using BusinessLogic.Services;
 using DataTransferObjects.Entities;
 using API.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Utils.Extensions.Mapper;
+using DTO.Models.Authors;
 
 namespace Api.Controllers
 {

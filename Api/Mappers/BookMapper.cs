@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-
-using Api.Models.Books;
 using DataTransferObjects.Entities;
+using DTO.Models.Books;
 using Utils.Extensions.Mapper;
 
 namespace Api.Mappers

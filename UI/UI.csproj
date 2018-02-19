@@ -18,11 +18,34 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
+    <ProjectReference Include="..\DataTransferObjects\DataTransferObjects.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\components\container\" />
+    <Folder Include="ClientApp\components\interfaces\" />
+    <Folder Include="ClientApp\css\fonts\" />
     <Folder Include="ClientApp\store\base\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ClientApp\models\authors\AuthorCreateDTO.ts">
+      <CustomToolNamespace>..\DataTransferObjects\Models\Authors\AuthorCreateDTO.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\models\authors\AuthorDTO.ts">
+      <CustomToolNamespace>..\DataTransferObjects\Models\Authors\AuthorDTO.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\models\authors\AuthorUpdateDTO.ts">
+      <CustomToolNamespace>..\DataTransferObjects\Models\Authors\AuthorUpdateDTO.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\models\books\BookCreateDTO.ts">
+      <CustomToolNamespace>..\DataTransferObjects\Models\Books\BookCreateDTO.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\models\books\BookDTO.ts">
+      <CustomToolNamespace>..\DataTransferObjects\Models\Books\BookDTO.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\models\books\BookUpdateDTO.ts">
+      <CustomToolNamespace>..\DataTransferObjects\Models\Books\BookUpdateDTO.cs</CustomToolNamespace>
+    </None>
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">

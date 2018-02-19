@@ -35,7 +35,7 @@ settings.auth.oidcConfig = <UserManagerSettings>{
 }
 
 
-export const appSettings = {
+export const AppSettings = {
     ...settings,
     
 } as IAppSettings

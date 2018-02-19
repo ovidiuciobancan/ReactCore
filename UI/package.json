@@ -50,6 +50,8 @@
     "@types/redux-actions": "^2.2.3",
     "babel-polyfill": "^6.26.0",
     "material-ui": "^0.20.0",
+    "material-ui-icons": "^1.0.0-beta.17",
+    "odata-client": "^0.6.0",
     "oidc-client": "https://registry.npmjs.org/oidc-client/-/oidc-client-1.4.1.tgz",
     "prop-types": "https://registry.npmjs.org/prop-types/-/prop-types-15.5.10.tgz",
     "react": "^15.6.1",

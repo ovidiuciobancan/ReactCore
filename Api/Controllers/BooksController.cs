@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using Api.Base;
 using BusinessLogic.Services;
 using DataTransferObjects.Entities;
-using Api.Models.Books;
 using Microsoft.AspNetCore.JsonPatch;
 using Utils.Extensions.Mapper;
 using System.Collections.Generic;
-using Api.Models.Common;
 using Microsoft.AspNetCore.Http;
 using Utils.Helpers;
+using DTO.Models.Books;
+using DTO.Models.Common;
 
 namespace Api.Controllers
 {

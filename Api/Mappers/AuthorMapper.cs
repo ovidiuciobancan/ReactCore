@@ -1,11 +1,11 @@
 ﻿using System;
 using AutoMapper;
-using Api.Models.Authors;
 using DataTransferObjects.Entities;
 using System.Linq;
-using Api.Models.Books;
 using Utils.Extensions.Mapper;
 using System.Linq.Expressions;
+using DTO.Models.Authors;
+using DTO.Models.Books;
 
 namespace Api.Mappers
 {

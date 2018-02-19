@@ -1,18 +1,21 @@
 import * as React from 'react';
-import { TopBar } from 'presentation/Layout/TopBar';
-import { NavMenu } from 'presentation/Layout/NavMenu';
+import { NavMenu } from 'presentation/layout/NavMenu';
+import { AppBar } from 'presentation/layout/AppBar'
+import {
+    LayoutViewProps
+} from 'interfaces/ComponentProps'
 
-export const LayoutView = (props: any) => {
+export const LayoutView = (props: LayoutViewProps) => {
     return (
         <div className='container-fluid'>
             <div className='row'>
-                <TopBar {...props} />
+                <AppBar {...props.appBarProps} />
             </div>
             <div className='row'>
-                <div className='col-sm-3'>
-                    <NavMenu {...props} />
+                <div className='col-sm-2'>
+                    <NavMenu {...props.navMenuProps} />
                 </div>
-                <div className='col-sm-9'>
+                <div className='col-sm-10'>
                     {props.children}
                 </div>
             </div>

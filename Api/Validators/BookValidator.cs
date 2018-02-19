@@ -1,5 +1,5 @@
-﻿using Api.Models.Books;
-using BusinessLogic.Services;
+﻿using BusinessLogic.Services;
+using DTO.Models.Books;
 using FluentValidation;
 
 namespace Api.Validators

@@ -16,11 +16,6 @@ using Utils.Extensions;
 using Utils.Extensions.HttpRequestPipeline;
 using Utils.Extensions.Mapper;
 using System;
-using Api.Models.Authors;
-using Microsoft.AspNet.OData.Extensions;
-using Microsoft.AspNet.OData.Builder;
-using Microsoft.OData.Edm;
-using DataTransferObjects.Entities;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using FluentValidation.AspNetCore;
 using Api.Validators;
@@ -111,7 +106,7 @@ namespace Api
                 // this defines a CORS policy called "default"
                 options.AddPolicy("default", policy =>
                 {
-                    policy.WithOrigins("https://localhost:44310/")
+                    policy.WithOrigins("https://localhost:44310")
                         .AllowAnyHeader()
                         .AllowAnyMethod();
                 });
@@ -125,9 +120,9 @@ namespace Api
 
             app.UseSerilogMiddleware(loggerFactory);
 
-            app.UseCors("default");
-
             app.UseAuthentication();
+
+            app.UseCors("default");
 
             app.UseMvc(routes =>
             {

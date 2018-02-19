@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Api.Base;
-using Api.Models.Common;
+﻿using System.Collections.Generic;
+using DTO.Models.Common;
 using Microsoft.AspNetCore.Mvc;
 using Utils.Extensions.Mapper;
 

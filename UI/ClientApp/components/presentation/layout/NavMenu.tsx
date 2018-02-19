@@ -1,40 +1,31 @@
 import * as React from 'react';
 import { NavLink, Link } from 'react-router-dom';
+import { DrawerWidget } from 'widgets/drawer'
+import { DrawerProps, MenuItem } from 'material-ui';
+import { NavMenuProps } from 'interfaces/ComponentProps'
 
-export class NavMenu extends React.Component<any, any> {
-    public render() {
-        return <div className='main-nav'>
-                <div className='navbar navbar-inverse'>
-                <div className='navbar-header'>
-                    <button type='button' className='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse'>
-                        <span className='sr-only'>Toggle navigation</span>
-                        <span className='icon-bar'></span>
-                        <span className='icon-bar'></span>
-                        <span className='icon-bar'></span>
-                    </button>
-                    <Link className='navbar-brand' to={ '/' }>Api</Link>
-                </div>
-                <div className='clearfix'></div>
-                <div className='navbar-collapse collapse'>
-                    <ul className='nav navbar-nav'>
-                        <li>
-                            <NavLink exact to={ '/' } activeClassName='active'>
-                                <span className='glyphicon glyphicon-home'></span> Home
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to={ '/counter' } activeClassName='active'>
-                                <span className='glyphicon glyphicon-education'></span> Counter
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to={ '/fetchdata' } activeClassName='active'>
-                                <span className='glyphicon glyphicon-th-list'></span> Fetch data
-                            </NavLink>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>;
-    }
+export const NavMenu = (props: NavMenuProps) => {
+
+    const menuItems = props.items || [];
+
+    return (
+        <DrawerWidget config={props.drawerConfig}>
+            {menuItems.map(item => (
+                <MenuItem {...props.menuItemProps}>
+                    <NavLink exact={item.exact} to={item.routeTo} activeClassName='active' {...props.navLinkProps}>
+                        <div className='row'>
+                            <div className='col-sm-1'>
+                            </div>
+                            <div className='col-sm-2'>
+                                <span className={`glyphicon ${item.glyphiconTag || 'glyphicon-list'}`}></span>
+                            </div>
+                            <div className='col-sm-6'>
+                                {item.content}
+                            </div>
+                        </div>
+                    </NavLink>
+                </MenuItem>
+            ))}
+        </DrawerWidget>
+    );
 }
